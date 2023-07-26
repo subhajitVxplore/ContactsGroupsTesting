@@ -1,32 +1,25 @@
 package com.test.app.contactsgroupstesting.viewModels
 
-import android.service.autofill.Validators.and
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.test.app.contactsgroupstesting.models.ContactsModel
 import com.test.app.contactsgroupstesting.models.GroupsModel
+import kotlinx.coroutines.launch
 
 
 class DashboardViewModel : ViewModel() {
 
-    var demoText = mutableStateOf("demoText")
-
     var contactsList = mutableStateListOf<ContactsModel>()
     var contactsGroup1 = mutableStateListOf<ContactsModel>()
-    var contactsCheckedStatus= mutableStateOf(false)
     var contactsGroup2 = mutableStateListOf<ContactsModel>()
     var contactsGroup3 = mutableStateListOf<ContactsModel>()
     var groupsList = mutableStateListOf<GroupsModel>()
-
-    //var contactCheckedStatus = mutableStateListOf<Boolean>()
-    //var contactCheckedStatus:List<Boolean> = listOf(false)
-
-    // var contactCheckedStatus = mutableStateListOf<Boolean>()
- //   var contactCheckedStatus: SnapshotStateList<Boolean>? = null
     var tabIndex = mutableStateOf(0)
-
+    val tabs = mutableStateListOf("Contacts", "Groups")
+    var falseCounter= mutableStateOf(3)
+    var mutableValue= mutableStateOf(0)
 
 
     init {
@@ -34,7 +27,7 @@ class DashboardViewModel : ViewModel() {
         demoGroupList()
     }
 
-    fun demoContactList() {
+    fun demoContactList()= viewModelScope.launch {
 
         contactsGroup1.add(ContactsModel(1, "Sayna", "8282811678", false))
         contactsGroup1.add(ContactsModel(2, "Puja", "9876543210", false))
@@ -56,46 +49,11 @@ class DashboardViewModel : ViewModel() {
 
     }
 
-    fun demoGroupList() {
-        groupsList.add(GroupsModel(contactsGroup1))
-        groupsList.add(GroupsModel(contactsGroup2))
-        groupsList.add(GroupsModel(contactsGroup3))
-
+    fun demoGroupList()= viewModelScope.launch {
+        groupsList.add(GroupsModel(contactsGroup1,false))
+        groupsList.add(GroupsModel(contactsGroup2,false))
+        groupsList.add(GroupsModel(contactsGroup3,false))
     }
-
-//    fun storeContactCheckedStatus(status:Boolean){
-//        contactCheckedStatus.add(status)
-//    }
-
-
-    fun isGroup1Selected(): Boolean {
-        for ((index, contacts) in contactsGroup1.withIndex()) {
-            if ((contacts.id == (index+1)) and(contacts.isSelected)) {
-                    return true
-            }
-
-        }
-        return false
-    }
-
-     fun isGroup2Selected(): Boolean {
-        for ((index, contacts) in contactsGroup2.withIndex()) {
-            if (contacts.isSelected) {
-                return true
-            }
-        }
-        return false
-    }
-
-     fun isGroup3Selected(): Boolean {
-        for ((index, contacts) in contactsGroup3.withIndex()) {
-            if (contacts.isSelected) {
-                return true
-            }
-        }
-        return false
-    }
-
 
 
 

@@ -1,5 +1,7 @@
 package com.test.app.contactsgroupstesting.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
@@ -10,24 +12,21 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.test.app.contactsgroupstesting.viewModels.DashboardViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel
 ) {
-    //var tabIndex by remember { mutableStateOf(0) }
 
-    val tabs = listOf("Contacts", "Groups")
-
+//    Column() {
+//        RangePlusMinusPage(viewModel)
+//    }
     Column(modifier = Modifier.fillMaxWidth()) {
         TabRow(selectedTabIndex = viewModel.tabIndex.value) {
-            tabs.forEachIndexed { index, title ->
+            viewModel.tabs.forEachIndexed { index, title ->
                 Tab(text = { Text(title) },
                     selected = viewModel.tabIndex.value == index,
                     onClick = { viewModel.tabIndex.value = index },
